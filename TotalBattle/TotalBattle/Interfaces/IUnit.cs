@@ -5,9 +5,11 @@
         #region properties
         string Name { get; }
         float Health { get; set; }
-        bool IsBlocks { get; }
+
+        bool IsBlocks { get; } 
         float Damage { get; }
         IArmor Armor { get; }
+
         IWeapon Weapon { get; }
         #endregion
 

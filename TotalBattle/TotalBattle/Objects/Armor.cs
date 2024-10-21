@@ -23,5 +23,6 @@ namespace TotalBattle.Objects
             _defense = defense;
             _type = type;
         }
+
     }
 }

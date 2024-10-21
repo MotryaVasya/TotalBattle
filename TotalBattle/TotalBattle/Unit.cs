@@ -18,34 +18,34 @@ namespace TotalBattle
         private IWeapon _weapon;
         private IArmor _armor;
 
-        private Dictionary<Armors, Dictionary<Weapons, float>> _resistances = 
-            new Dictionary<Armors, Dictionary<Weapons, float>>
-        {
-            { Armors.light,
-                new Dictionary<Weapons, float> {
+        private Dictionary<Armors, Dictionary<Weapons, float>> _resistances =
+            new Dictionary<Armors, Dictionary<Weapons, float>>()
+            {
+                { Armors.light, new Dictionary<Weapons, float>()
+                {
                     { Weapons.slashing, 1.2f },
                     { Weapons.piercing, 1f },
                     { Weapons.bludgeoning, 0.8f }
-                }
-            },
-            { Armors.medium,
-                new Dictionary<Weapons, float> {
+                }},
+                { Armors.medium, new Dictionary<Weapons, float>()
+                {
                     { Weapons.slashing, 0.8f },
                     { Weapons.piercing, 1.2f },
                     { Weapons.bludgeoning, 1f }
-                }
-            },
-            { Armors.heavy,
-                new Dictionary<Weapons, float> {
+                }},
+                { Armors.heavy, new Dictionary<Weapons, float>()
+                {
                     { Weapons.slashing, 0.8f },
                     { Weapons.piercing, 1f },
                     { Weapons.bludgeoning, 1.2f }
-                }
-            }
-        };
+                }}
+
+            };
         #endregion
 
         #region properties
+        
+        public string Name { get => _name; }
         public float Health { get => _health; set => _health = value; }
 
         public bool IsBlocks { get => _block; }
@@ -57,7 +57,7 @@ namespace TotalBattle
                 return _baseDamage + Weapon.Damage;
             }
         }
-        public string Name { get => _name; }
+
         public IWeapon Weapon => _weapon;
         public IArmor Armor => _armor;
         #endregion
@@ -74,13 +74,15 @@ namespace TotalBattle
             _maxHealth = health;
         }
 
-        public Unit(string name) : this(name,100, 5, WeaponArsenal.sword, ArmorArsenal.leather) { }
+        public Unit(string name) : this(name, 100, 5, WeaponArsenal.sword,
+            ArmorArsenal.leather) { }
         #endregion
+
         public bool Attack(IUnit enemy)
         {
             if ((IsBlocks) || (enemy.IsBlocks)) return false;
-
-            if (enemy.Health <= 0f)
+            
+            if(enemy.Health <= 0f)
             {
                 onKill?.Invoke(enemy);
                 return true;
@@ -101,7 +103,7 @@ namespace TotalBattle
         public void Heal(float value)
         {
             if ((Health <= 0f) || (Health >= _maxHealth)) return;
-
+            
             Health += value;
             if (Health > _maxHealth) Health = _maxHealth;
         }

@@ -1,0 +1,7 @@
+C:\Users\PC\source\repos\TotalBattle\TotalBattle\bin\Debug\TotalBattle.exe.config
+C:\Users\PC\source\repos\TotalBattle\TotalBattle\bin\Debug\TotalBattle.exe
+C:\Users\PC\source\repos\TotalBattle\TotalBattle\bin\Debug\TotalBattle.pdb
+C:\Users\PC\source\repos\TotalBattle\TotalBattle\obj\Debug\TotalBattle.csproj.AssemblyReference.cache
+C:\Users\PC\source\repos\TotalBattle\TotalBattle\obj\Debug\TotalBattle.csproj.CoreCompileInputs.cache
+C:\Users\PC\source\repos\TotalBattle\TotalBattle\obj\Debug\TotalBattle.exe
+C:\Users\PC\source\repos\TotalBattle\TotalBattle\obj\Debug\TotalBattle.pdb
