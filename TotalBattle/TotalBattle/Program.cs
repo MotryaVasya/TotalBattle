@@ -11,7 +11,8 @@ namespace TotalBattle
 
         static void Main(string[] args)
         {
-
+            GameLoop gl = new GameLoop();
+            gl.Start();
         }
     }
 }

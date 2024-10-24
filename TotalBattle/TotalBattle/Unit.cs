@@ -74,32 +74,27 @@ namespace TotalBattle
             _maxHealth = health;
         }
 
-        public Unit(string name) : this(name, 100, 5, WeaponArsenal.sword,
+        public Unit(string name) : this(name, 25, 5, WeaponArsenal.sword,
             ArmorArsenal.leather) { }
         #endregion
-
         public bool Attack(IUnit enemy)
         {
-            if ((IsBlocks) || (enemy.IsBlocks)) return false;
-            
-            if(enemy.Health <= 0f)
-            {
-                onKill?.Invoke(enemy);
-                return true;
-            }
-            else
-            {
-                enemy.Health -= RealDamage(enemy.Armor);
-                return false;
-            }
-        }
+            if ((IsBlocks) || (enemy.IsBlocks) || (Health <= 0f)) return false;
 
+            enemy.Health -= RealDamage(enemy.Armor);
+
+            if (enemy.Health <= 0f)
+            {
+                enemy.Health = 0f;
+                onKill?.Invoke(enemy);
+            }
+            return true;
+        }
         public void Block()
         {
             Random rnd = new Random();
             _block = rnd.Next(0, 100) <= 30;
         }
-
         public void Heal(float value)
         {
             if ((Health <= 0f) || (Health >= _maxHealth)) return;
@@ -107,7 +102,6 @@ namespace TotalBattle
             Health += value;
             if (Health > _maxHealth) Health = _maxHealth;
         }
-
         private float RealDamage(IArmor armor)
         {
             return _resistances[armor.Type][Weapon.Type];
