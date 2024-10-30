@@ -41,10 +41,11 @@ namespace TotalBattle
                 }}
 
             };
+        private static Random _rnd = new Random();
         #endregion
 
         #region properties
-        
+
         public string Name { get => _name; }
         public float Health { get => _health; set => _health = value; }
 
@@ -90,11 +91,7 @@ namespace TotalBattle
             }
             return true;
         }
-        public void Block()
-        {
-            Random rnd = new Random();
-            _block = rnd.Next(0, 100) <= 30;
-        }
+        public void Block() => _block = _rnd.Next(0, 100) <= 30;
         public void Heal(float value)
         {
             if ((Health <= 0f) || (Health >= _maxHealth)) return;
@@ -104,7 +101,7 @@ namespace TotalBattle
         }
         private float RealDamage(IArmor armor)
         {
-            return _resistances[armor.Type][Weapon.Type];
+            return Damage * _resistances[armor.Type][Weapon.Type];
         }
     }
 }

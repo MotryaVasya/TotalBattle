@@ -8,14 +8,9 @@ C:\Users\PC\source\repos\TotalBattle\TotalBattle\obj\Debug\TotalBattle.pdb
 C:\Users\STUDENT\Desktop\TotalBattle\TotalBattle\bin\Debug\TotalBattle.exe.config
 C:\Users\STUDENT\Desktop\TotalBattle\TotalBattle\bin\Debug\TotalBattle.exe
 C:\Users\STUDENT\Desktop\TotalBattle\TotalBattle\bin\Debug\TotalBattle.pdb
+C:\Users\STUDENT\Desktop\TotalBattle\TotalBattle\bin\Debug\SL_Library.dll
 C:\Users\STUDENT\Desktop\TotalBattle\TotalBattle\obj\Debug\TotalBattle.csproj.AssemblyReference.cache
 C:\Users\STUDENT\Desktop\TotalBattle\TotalBattle\obj\Debug\TotalBattle.csproj.CoreCompileInputs.cache
+C:\Users\STUDENT\Desktop\TotalBattle\TotalBattle\obj\Debug\TotalBattle.csproj.CopyComplete
 C:\Users\STUDENT\Desktop\TotalBattle\TotalBattle\obj\Debug\TotalBattle.exe
 C:\Users\STUDENT\Desktop\TotalBattle\TotalBattle\obj\Debug\TotalBattle.pdb
-\\192.168.88.240\Total\вася\TotalBattle\TotalBattle\bin\Debug\TotalBattle.exe.config
-\\192.168.88.240\Total\вася\TotalBattle\TotalBattle\bin\Debug\TotalBattle.exe
-\\192.168.88.240\Total\вася\TotalBattle\TotalBattle\bin\Debug\TotalBattle.pdb
-\\192.168.88.240\Total\вася\TotalBattle\TotalBattle\obj\Debug\TotalBattle.csproj.AssemblyReference.cache
-\\192.168.88.240\Total\вася\TotalBattle\TotalBattle\obj\Debug\TotalBattle.csproj.CoreCompileInputs.cache
-\\192.168.88.240\Total\вася\TotalBattle\TotalBattle\obj\Debug\TotalBattle.exe
-\\192.168.88.240\Total\вася\TotalBattle\TotalBattle\obj\Debug\TotalBattle.pdb

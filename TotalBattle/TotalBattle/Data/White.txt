@@ -1,0 +1,10 @@
+White0;25;5;Sword;Leather
+White1;25;5;Sword;Leather
+White2;25;5;Sword;Leather
+White3;25;5;Sword;Leather
+White4;25;5;Sword;Leather
+White5;25;5;Sword;Leather
+White6;25;5;Sword;Leather
+White7;25;5;Sword;Leather
+White8;25;5;Sword;Leather
+White9;25;5;Sword;Leather

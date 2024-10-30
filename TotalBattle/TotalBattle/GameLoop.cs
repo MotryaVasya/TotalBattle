@@ -1,10 +1,6 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Xml.Linq;
 using TotalBattle.Interfaces;
 using TotalBattle.Objects;
 //Исправить момент, когда юнит, бьющий в спину ставит блок
@@ -18,13 +14,25 @@ namespace TotalBattle
         private Dictionary<Unit, Unit> _battles;
         public void Start()
         {
+            UnitSL slManager = new UnitSL();
+
             Console.WriteLine("Первая армия: ");
             _army1 = new List<Unit>();
-            CreateArmy(_army1, "Ч");
+
+            if (!LoadAmry(ref _army1, slManager, "Black"))
+            {
+                CreateArmy(_army1, "Ч");
+                SaveArmy(_army1, slManager, "Black");
+            }
+
 
             Console.WriteLine("Вторая армия: ");
             _army2 = new List<Unit>();
-            CreateArmy(_army2, "Б");
+            if (!LoadAmry(ref _army2, slManager, "White"))
+            {
+                CreateArmy(_army2, "Б");
+                SaveArmy(_army2, slManager, "White");
+            }
 
             _battles = new Dictionary<Unit, Unit>();
             MakeLinks(_army1, _army2, _battles);
@@ -35,107 +43,20 @@ namespace TotalBattle
         }
 
         #region ArmyCreation
-        private void SaveArmyToFile(List<Unit> army, string name)
-        {
-            int input = ValidIntInput("не хотите ли сохранить данные\n1. да\n2. нет\n");
-            switch (input)
-            {
-                case 1:
-                    StreamWriter streamWriter = new StreamWriter($"INFO_{name}_{nameof(army)}.txt", false);
-                    WriteInfoToFile(streamWriter, army);
-                    break;
-                case 2:
-                    //доделать
-                    break;
-            }
-        }
-
-        private List<Unit> ReadInfoFromFile(List<Unit> army, string name)
-        {
-            #region ForRead
-            string Filename = $"INFO_{name}_{nameof(army)}.txt";
-            string pattern = @"Имя игрока: (?<name>Ч\d) Здоровье игрока: (?<health>\d+) Оружие игрока: \((?<weapon>[^)]+)\) Броня игрока: \((?<armor>[^)]+)\)";
-            StreamReader streamReader = new StreamReader(Filename);
-            var matches = Regex.Matches(streamReader.ReadToEnd(), pattern);
-            #endregion
-            #region FildsUnit
-            string nameUnit;
-            string healthUnit;
-
-            string[] weaponUnit;
-            string weaponName;
-            string weaponDamage;
-            string weaponType;
-
-            string[] armorUnit;
-            string armorName;
-            string armorValue;
-            string armorType;
-            #endregion
-            List<Unit> returnsArmy = new List<Unit>();
-            foreach (Match match in matches)
-            {
-                nameUnit = match.Groups["name"].Value;
-                healthUnit = match.Groups["health"].Value;
-
-                weaponUnit = match.Groups["weapon"].Value.Split('-', ' ', ',');
-                weaponName = weaponUnit[0];
-                weaponDamage = weaponUnit[3];
-                weaponType = weaponUnit[6];
-
-                armorUnit = match.Groups["armor"].Value.Split('-', ' ', ',');
-                armorName = armorUnit[0];
-                armorValue = armorUnit[3];
-                armorType = armorUnit[6];
-
-
-
-                //  returnsArmy.Add(new Unit(nameUnit,healthUnit,5, WeaponArsenal));
-                //доделать добавление 
-            }
-            return returnsArmy;
-        }
-
-        private void WriteInfoToFile(StreamWriter streamWriter, List<Unit> army)
-        {
-            foreach (var item in army)
-            {
-                streamWriter.Write("Имя игрока: " + item.Name + " ");
-                streamWriter.Write("Здоровье игрока: " + item.Health + " ");
-                streamWriter.Write($"Оружие игрока: ({item.Weapon.Name} - {item.Weapon.Damage} - {item.Weapon.Type}) ");
-                streamWriter.Write($"Броня игрока: ({item.Armor.Name} - {item.Armor.Defense} - {item.Armor.Type} ) ");
-
-                streamWriter.WriteLine("");
-            }
-            streamWriter.Close();
-        }
-
         private void CreateArmy(List<Unit> army, string name)
         {
-            int number = ValidIntInput($"хотите ли закрузить текущую информауию о армии под названием{name}\n1. да\n2. нет");
-            switch (number)
+            int unitsCount = ValidIntInput("Сколько бойцов в вашей армии? " +
+                "(Нужен хотя бы 1 воин!)");
+
+            int editorChoice = ValidChoiceInput("Хотите изменить снаряжение армии?\n" +
+                "1 - да\n" +
+                "2 - нет\n", 2);
+
+            switch (editorChoice)
             {
-                case 1:
-                    ReadInfoFromFile(army, name);
-                    break;
-                case 2:
-                    int unitsCount = ValidIntInput("Сколько бойцов в вашей армии? " +
-                        "(Нужен хотя бы 1 воин!)");
-
-                    int editorChoice = ValidChoiceInput("Хотите изменить снаряжение армии?\n" +
-                        "1 - да\n" +
-                        "2 - нет\n", 2);
-
-                    switch (editorChoice)
-                    {
-                        case 1: ArmyEditor(army, unitsCount, name); break;
-                        case 2: ArmyGenerator(army, unitsCount, null, null, name); break;
-                    }
-                    SaveArmyToFile(army, name);
-                    break;
+                case 1: ArmyEditor(army, unitsCount, name); break;
+                case 2: ArmyGenerator(army, unitsCount, null, null, name); break;
             }
-
-
         }
         private void ArmyEditor(List<Unit> army, int armyCount, string name)
         {
@@ -427,6 +348,44 @@ namespace TotalBattle
                 Console.WriteLine($"\nПервая армия {_army1.Count} vs " +
                     $"Вторая армия {_army2.Count}");
             }
+            ShowSurvivors();
+        }
+
+        private void ShowSurvivors()
+        {
+            List<Unit> survivors;
+            if (_army1.Count > 0) survivors = _army1;
+            else survivors = _army2;
+
+            Console.WriteLine("Выжившие:");
+            foreach (Unit unit in survivors)
+            {
+                Console.WriteLine($"{unit.Name} - {Math.Round(unit.Health, 1)} хп");
+            }
+        }
+        #endregion
+
+        #region SL_Service
+        private void SaveArmy(List<Unit> army, UnitSL manager, string fileName, string fileEnd = ".txt")
+        {
+            if (army.Count == 0)
+            {
+                Console.WriteLine("нет юнитов для сохранения!");
+                return;
+            }
+            
+            int choice = ValidChoiceInput($"Желаете ли сохранить армию?\n1 - да \n2 - нет\n", 2);
+            if (choice == 2) return;
+
+            manager.Save(army, manager.FilePath + fileName, true, fileEnd);
+        }
+        private bool LoadAmry(ref List<Unit> army, UnitSL manager, string fileName, string fileEnd = ".txt")
+        {
+            int choice = ValidChoiceInput($"Загрузить данные?\n1 - да \n2 -нет\n", 2);
+            if (choice == 2) return false;
+            army = manager.Load(manager.FilePath + fileName, fileEnd);
+            if (_army1.Count == 0) { Console.WriteLine($"Файл сохранений {fileName + fileEnd} не найден!"); return false; }
+            return true;
         }
         #endregion
     }
